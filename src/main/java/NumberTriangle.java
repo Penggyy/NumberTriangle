@@ -109,22 +109,35 @@ public class NumberTriangle {
         InputStream inputStream = NumberTriangle.class.getClassLoader().getResourceAsStream(fname);
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
-
-        // TODO define any variables that you want to use to store things
-
+        int root = Integer.parseInt(br.readLine());
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
-        NumberTriangle top = null;
+
+        NumberTriangle top = new NumberTriangle(root);
+
+        NumberTriangle curr = top;
+        NumberTriangle[] prevRow = new NumberTriangle[1];
+        prevRow[0] = top;
 
         String line = br.readLine();
+
+        int rowSize = 2;
         while (line != null) {
+            String[] split = line.trim().split(" ");
+            NumberTriangle[] currRow = new NumberTriangle[rowSize];
 
-            // remove when done; this line is included so running starter code prints the contents of the file
-            System.out.println(line);
+            for (int i = 0; i < rowSize; i++) {
+                currRow[i] = new NumberTriangle(Integer.parseInt(split[i]));
+            }
 
-            // TODO process the line
+            for (int i = 0; i < prevRow.length; i++) {
+                prevRow[i].setLeft(currRow[i]);
+                prevRow[i].setRight(currRow[i + 1]);
+            }
 
-            //read the next line
+            prevRow = currRow;
+            rowSize++;
+
             line = br.readLine();
         }
         br.close();
@@ -138,7 +151,7 @@ public class NumberTriangle {
         // [not for credit]
         // you can implement NumberTriangle's maxPathSum method if you want to try to solve
         // Problem 18 from project Euler [not for credit]
-        mt.maxSumPath();
+//        mt.maxSumPath();
         System.out.println(mt.getRoot());
     }
 }
